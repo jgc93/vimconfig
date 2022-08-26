@@ -109,6 +109,7 @@ tab sball
 set switchbuf=useopen
 :nnoremap <Tab> :bnext<CR>
 :nnoremap <S-Tab> :bprevious<CR>
+nnoremap <C-q> :quit!<CR>
 set laststatus=2
 nmap <silent> <leader>q :SyntasticCheck # <CR> :bp <BAR> bd #<CR>
 
