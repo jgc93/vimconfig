@@ -6,7 +6,7 @@ wrapper() {
   BLUE="\033[0;36m"
   NORMAL="\033[0m"
 
-  REPO_HTTPS="https://github.com/ets-labs/python-vimrc.git"
+  REPO_HTTPS="https://github.com/jgc93/vimconfig.git"
   VUNDLE_HTTPS="https://github.com/VundleVim/Vundle.vim.git"
 
 echo "${BLUE}"
@@ -36,15 +36,11 @@ echo "${NORMAL}"
 
   if [ -d "$VIM" ]; then
     printf "${YELLOW}%s${NORMAL}\n" "You already have $VIM directory."
-    printf "${YELLOW}%s${NORMAL}\n" "You have to remove $VIM if you want to re-install."
+    printf "${YELLOW}%s${NORMAL}\n" "Removing old  $VIM for you..."
+    sudo rm -r ~/.vim
     exit 0
   fi
 
-  # Prevent the cloned repository from having insecure permissions. Failing to do
-  # so causes compinit() calls to fail with "command not found: compdef" errors
-  # for users with insecure umasks (e.g., "002", allowing group writability). Note
-  # that this will be ignored under Cygwin by default, as Windows ACLs take
-  # precedence over umasks except for filesystems mounted with option "noacl".
   umask g-w,o-w
 
   printf "${BLUE}%s${NORMAL}\n" "Cloning vimrc from ${REPO_HTTPS}"
@@ -72,13 +68,6 @@ echo "${NORMAL}"
   if [ ! -d "$VIM/bundle/Vundle.vim" ]; then
       printf "${BLUE}%s${NORMAL}\n" "Installing Vundle..."
       env git clone --depth=1 $VUNDLE_HTTPS "$VIM/bundle/Vundle.vim"
-  fi
-
-  if [ ! -f $VIM/colors/wombat256mod.vim ]; then
-      if [ ! -d $VIM/colors/ ]; then
-          mkdir -p $VIM/colors
-      fi
-      wget 'http://www.vim.org/scripts/download_script.php?src_id=13400' -O $VIM/colors/wombat256mod.vim
   fi
 
   printf "${GREEN}%s${NORMAL}\n" "Vimrc has been configured ;)"
